@@ -578,11 +578,14 @@
         // --- White header with logo ---
         if (logoDataUrl) {
           try {
-            doc.addImage(logoDataUrl, 'PNG', pageW / 2 - 20, 10, 40, 40);
+            // Logo aspect ratio is 3.45:1 (918x266px)
+            var logoW = 60;
+            var logoH = logoW / 3.45;
+            doc.addImage(logoDataUrl, 'PNG', pageW / 2 - logoW / 2, 10, logoW, logoH);
           } catch (e) { /* skip logo */ }
         }
 
-        let y = 55;
+        let y = 38;
         doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(16);
@@ -601,7 +604,7 @@
         // --- Worker Info ---
         y += 10;
         doc.setFillColor(245, 245, 245);
-        doc.roundedRect(margin, y, contentW, 38, 2, 2, 'F');
+        doc.roundedRect(margin, y, contentW, 44, 2, 2, 'F');
 
         const infoX1 = margin + 6;
         const infoX2 = margin + 45;
@@ -636,18 +639,19 @@
         doc.setFontSize(10);
         doc.text(weeknr.value, infoX2, y);
 
+        y += 8;
         const dvVal = datumVan.value ? formatDateDisplay(new Date(datumVan.value + 'T00:00:00')) : '—';
         const dtVal = datumTot.value ? formatDateDisplay(new Date(datumTot.value + 'T00:00:00')) : '—';
         doc.setTextColor(100, 100, 100);
         doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
-        doc.text('Periode / Period:', margin + 90, y);
+        doc.text('Periode / Period:', infoX1, y);
         doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
-        doc.text(dvVal + '  t/m  ' + dtVal, margin + 125, y);
+        doc.text(dvVal + '  t/m  ' + dtVal, infoX2, y);
 
-        y += 14;
+        y += 12;
 
         // --- Hours Table ---
         doc.setTextColor(100, 100, 100);
