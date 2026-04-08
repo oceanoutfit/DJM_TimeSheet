@@ -329,6 +329,12 @@
         </div>
 
         <div class="form-group">
+          <label for="project">Project / Werf</label>
+          <span class="label-en">Project / Shipyard</span>
+          <input type="text" id="project" placeholder="Projectnaam / Project name">
+        </div>
+
+        <div class="form-group">
           <label for="weeknr">Weeknummer</label>
           <span class="label-en">Week number</span>
           <input type="number" id="weeknr" min="1" max="53" required inputmode="numeric" placeholder="1–53">
@@ -434,6 +440,7 @@
       // --- DOM refs ---
       const form = document.getElementById('urenstaat-form');
       const naam = document.getElementById('naam');
+      const project = document.getElementById('project');
       const weeknr = document.getElementById('weeknr');
       const datumVan = document.getElementById('datumVan');
       const datumTot = document.getElementById('datumTot');
@@ -596,7 +603,7 @@
         // --- Worker Info ---
         let y = 56;
         doc.setFillColor(245, 245, 245);
-        doc.roundedRect(margin, y, contentW, 28, 3, 3, 'F');
+        doc.roundedRect(margin, y, contentW, 35, 3, 3, 'F');
 
         doc.setTextColor(136, 136, 136);
         doc.setFontSize(8);
@@ -611,19 +618,19 @@
         doc.text(naam.value.trim(), margin + 38, y + 15);
 
         doc.setFont('helvetica', 'normal');
-        doc.text('Week:', margin + 6, y + 22);
+        doc.text('Project:', margin + 6, y + 22);
         doc.setFont('helvetica', 'bold');
-        doc.text(weeknr.value, margin + 22, y + 22);
+        doc.text(project.value.trim() || '—', margin + 24, y + 22);
 
         const dvVal = datumVan.value ? formatDateDisplay(new Date(datumVan.value + 'T00:00:00')) : '—';
         const dtVal = datumTot.value ? formatDateDisplay(new Date(datumTot.value + 'T00:00:00')) : '—';
         doc.setFont('helvetica', 'normal');
-        doc.text('Periode / Period:', margin + 50, y + 22);
+        doc.text('Periode / Period:', margin + 50, y + 29);
         doc.setFont('helvetica', 'bold');
-        doc.text(dvVal + '  t/m  ' + dtVal, margin + 82, y + 22);
+        doc.text(dvVal + '  t/m  ' + dtVal, margin + 82, y + 29);
 
         // --- Hours Table ---
-        y = 94;
+        y = 101;
         doc.setTextColor(136, 136, 136);
         doc.setFontSize(8);
         doc.setFont('helvetica', 'bold');
@@ -738,7 +745,8 @@
 
         // --- Save ---
         const safeName = naam.value.trim().replace(/[^a-zA-Z0-9]/g, '_');
-        const filename = 'Urenstaat_' + safeName + '_Week' + weeknr.value + '_' + now.getFullYear() + '.pdf';
+        const safeProject = project.value.trim() ? '_' + project.value.trim().replace(/[^a-zA-Z0-9]/g, '_') : '';
+        const filename = 'Urenstaat_' + safeName + safeProject + '_Week' + weeknr.value + '_' + now.getFullYear() + '.pdf';
 
         // iOS Safari workaround
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
