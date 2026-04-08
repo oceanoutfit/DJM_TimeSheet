@@ -570,167 +570,163 @@
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
         const pageW = 210;
-        const margin = 15;
+        const margin = 20;
         const contentW = pageW - margin * 2;
+        const colLabel = margin + 5;
+        const colValue = margin + contentW - 5;
 
-        // --- Header band ---
-        doc.setFillColor(26, 26, 26);
-        doc.rect(0, 0, pageW, 44, 'F');
-
-        let logoX = margin;
-        let textX = margin;
-
+        // --- White header with logo ---
         if (logoDataUrl) {
           try {
-            doc.addImage(logoDataUrl, 'PNG', margin, 6, 32, 32);
-            textX = margin + 38;
-          } catch (e) { /* skip logo on error */ }
+            doc.addImage(logoDataUrl, 'PNG', pageW / 2 - 20, 10, 40, 40);
+          } catch (e) { /* skip logo */ }
         }
 
-        doc.setTextColor(255, 255, 255);
+        let y = 55;
+        doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(18);
-        doc.text('Duiker Jachtmontage B.V.', textX, 18);
+        doc.setFontSize(16);
+        doc.text('Duiker Jachtmontage B.V.', pageW / 2, y, { align: 'center' });
 
+        y += 7;
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(11);
-        doc.text('URENSTAAT / TIMESHEET', textX, 26);
+        doc.setFontSize(10);
+        doc.setTextColor(120, 120, 120);
+        doc.text('Urenstaat / Timesheet', pageW / 2, y, { align: 'center' });
 
-        doc.setFontSize(8);
-        doc.setTextColor(170, 170, 170);
-        doc.text('Beukerstraat 18, 4388PE Oost-Souburg, Nederland  |  KvK: 98948806', textX, 34);
+        y += 4;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, y, margin + contentW, y);
 
         // --- Worker Info ---
-        let y = 56;
+        y += 10;
         doc.setFillColor(245, 245, 245);
-        doc.roundedRect(margin, y, contentW, 35, 3, 3, 'F');
+        doc.roundedRect(margin, y, contentW, 38, 2, 2, 'F');
 
-        doc.setTextColor(136, 136, 136);
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'bold');
-        doc.text('MEDEWERKER / WORKER', margin + 6, y + 7);
+        const infoX1 = margin + 6;
+        const infoX2 = margin + 45;
 
+        y += 8;
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Naam / Name:', infoX1, y);
         doc.setTextColor(26, 26, 26);
+        doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
-        doc.setFont('helvetica', 'normal');
-        doc.text('Naam / Name:', margin + 6, y + 15);
-        doc.setFont('helvetica', 'bold');
-        doc.text(naam.value.trim(), margin + 38, y + 15);
+        doc.text(naam.value.trim(), infoX2, y);
 
+        y += 8;
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
-        doc.text('Project:', margin + 6, y + 22);
+        doc.text('Project:', infoX1, y);
+        doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
-        doc.text(project.value.trim() || '—', margin + 24, y + 22);
+        doc.setFontSize(10);
+        doc.text(project.value.trim() || '—', infoX2, y);
+
+        y += 8;
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Week:', infoX1, y);
+        doc.setTextColor(26, 26, 26);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text(weeknr.value, infoX2, y);
 
         const dvVal = datumVan.value ? formatDateDisplay(new Date(datumVan.value + 'T00:00:00')) : '—';
         const dtVal = datumTot.value ? formatDateDisplay(new Date(datumTot.value + 'T00:00:00')) : '—';
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
-        doc.text('Periode / Period:', margin + 50, y + 29);
+        doc.text('Periode / Period:', margin + 90, y);
+        doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
-        doc.text(dvVal + '  t/m  ' + dtVal, margin + 82, y + 29);
+        doc.setFontSize(10);
+        doc.text(dvVal + '  t/m  ' + dtVal, margin + 125, y);
+
+        y += 14;
 
         // --- Hours Table ---
-        y = 101;
-        doc.setTextColor(136, 136, 136);
+        doc.setTextColor(100, 100, 100);
         doc.setFontSize(8);
         doc.setFont('helvetica', 'bold');
         doc.text('GEWERKTE UREN / HOURS WORKED', margin, y);
 
-        y += 6;
-        const rowH = 10;
+        y += 3;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, y, margin + contentW, y);
+
+        y += 2;
+        const rowH = 11;
         const rows = [
-          { nl: 'Normale uren', en: 'Normal time', val: hourFields[0].value },
-          { nl: 'Overwerk (ma–vr)', en: 'Overtime (Mon–Fri)', val: hourFields[1].value },
-          { nl: 'Weekend (zaterdag)', en: 'Saturday', val: hourFields[2].value },
-          { nl: 'Weekend (zondag)', en: 'Sunday', val: hourFields[3].value },
-          { nl: 'Feestdagen', en: 'Public holiday', val: hourFields[4].value },
-          { nl: 'Uren buitenland', en: 'Foreign country', val: hourFields[5].value },
+          { label: 'Normale uren / Normal time', val: hourFields[0].value },
+          { label: 'Overwerk (ma-vr) / Overtime (Mon-Fri)', val: hourFields[1].value },
+          { label: 'Weekend (zaterdag) / Saturday', val: hourFields[2].value },
+          { label: 'Weekend (zondag) / Sunday', val: hourFields[3].value },
+          { label: 'Feestdagen / Public holiday', val: hourFields[4].value },
+          { label: 'Uren buitenland / Foreign country', val: hourFields[5].value },
         ];
 
-        rows.forEach((row, i) => {
+        rows.forEach(function(row, i) {
           if (i % 2 === 0) {
             doc.setFillColor(249, 249, 249);
             doc.rect(margin, y, contentW, rowH, 'F');
           }
 
-          doc.setTextColor(26, 26, 26);
+          doc.setTextColor(50, 50, 50);
           doc.setFontSize(10);
           doc.setFont('helvetica', 'normal');
-          doc.text(row.nl, margin + 4, y + 6.5);
+          doc.text(row.label, colLabel, y + 7.5);
 
-          doc.setFontSize(8);
-          doc.setTextColor(136, 136, 136);
-          doc.text(row.en, margin + 4 + doc.getTextWidth(row.nl + '  '), y + 6.5);
-
-          const hours = parseFloat(row.val) || 0;
-          doc.setTextColor(26, 26, 26);
-          doc.setFontSize(10);
+          var hours = parseFloat(row.val) || 0;
           doc.setFont('helvetica', 'bold');
-          doc.text(hours.toFixed(1), margin + contentW - 4, y + 6.5, { align: 'right' });
+          doc.text(hours.toFixed(1), colValue, y + 7.5, { align: 'right' });
 
           y += rowH;
         });
 
         // Total row
         doc.setFillColor(26, 26, 26);
-        doc.rect(margin, y, contentW, rowH + 2, 'F');
+        doc.roundedRect(margin, y, contentW, 13, 1, 1, 'F');
 
         doc.setTextColor(255, 255, 255);
-        doc.setFontSize(11);
+        doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
-        doc.text('TOTAAL / TOTAL', margin + 4, y + 7.5);
+        doc.text('TOTAAL / TOTAL', colLabel, y + 9);
 
-        const total = parseFloat(totaalDisplay.textContent) || 0;
-        doc.text(total.toFixed(1), margin + contentW - 4, y + 7.5, { align: 'right' });
+        var total = parseFloat(totaalDisplay.textContent) || 0;
+        doc.text(total.toFixed(1), colValue, y + 9, { align: 'right' });
 
-        y += rowH + 10;
+        y += 22;
 
         // --- Kilometers ---
-        doc.setTextColor(136, 136, 136);
+        doc.setTextColor(100, 100, 100);
         doc.setFontSize(8);
         doc.setFont('helvetica', 'bold');
         doc.text('KILOMETERS / MILEAGE', margin, y);
 
-        y += 6;
+        y += 3;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, y, margin + contentW, y);
+
+        y += 2;
         doc.setFillColor(249, 249, 249);
         doc.rect(margin, y, contentW, rowH, 'F');
 
-        doc.setTextColor(26, 26, 26);
+        doc.setTextColor(50, 50, 50);
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
-        doc.text('Totaal gereden kilometers / Total mileage driven', margin + 4, y + 6.5);
+        doc.text('Totaal gereden / Total mileage driven', colLabel, y + 7.5);
 
-        const km = parseFloat(kmField.value) || 0;
+        var km = parseFloat(kmField.value) || 0;
         doc.setFont('helvetica', 'bold');
-        doc.text(km.toFixed(0) + ' km', margin + contentW - 4, y + 6.5, { align: 'right' });
-
-        y += rowH + 16;
-
-        // --- Signature area ---
-        doc.setTextColor(136, 136, 136);
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'bold');
-        doc.text('HANDTEKENINGEN / SIGNATURES', margin, y);
-
-        y += 8;
-        const sigW = (contentW - 16) / 2;
-
-        // Worker signature
-        doc.setDrawColor(200, 200, 200);
-        doc.line(margin, y + 20, margin + sigW, y + 20);
-        doc.setTextColor(136, 136, 136);
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'normal');
-        doc.text('Medewerker / Worker', margin, y + 26);
-        doc.text('Datum / Date: _______________', margin, y + 32);
-
-        // Supervisor signature
-        doc.line(margin + sigW + 16, y + 20, margin + contentW, y + 20);
-        doc.text('Leidinggevende / Supervisor', margin + sigW + 16, y + 26);
-        doc.text('Datum / Date: _______________', margin + sigW + 16, y + 32);
+        doc.text(km.toFixed(0) + ' km', colValue, y + 7.5, { align: 'right' });
 
         // --- Footer ---
-        const footerY = 280;
+        var footerY = 280;
         doc.setDrawColor(200, 200, 200);
         doc.line(margin, footerY, margin + contentW, footerY);
 
@@ -739,8 +735,8 @@
         doc.setFont('helvetica', 'normal');
         doc.text('Duiker Jachtmontage B.V.  |  Beukerstraat 18, 4388PE Oost-Souburg  |  KvK: 98948806', pageW / 2, footerY + 5, { align: 'center' });
 
-        const now = new Date();
-        const genDate = formatDateDisplay(now) + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+        var now = new Date();
+        var genDate = formatDateDisplay(now) + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
         doc.text('Gegenereerd op / Generated: ' + genDate, pageW / 2, footerY + 10, { align: 'center' });
 
         // --- Save ---
