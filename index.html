@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Urenstaat | Duiker Jachtmontage B.V.</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      color: #1a1a1a;
+      background: #f0f0f0;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #ffffff;
+      color: #1a1a1a;
+      padding: 24px 16px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    header img {
+      max-width: 160px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #666;
+      letter-spacing: 0.3px;
+    }
+
+    main {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .install-banner {
+      display: none;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .install-banner.visible {
+      display: flex;
+    }
+
+    .install-banner button {
+      background: #fff;
+      color: #1a1a1a;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+
+    .install-banner .dismiss {
+      background: transparent;
+      color: #888;
+      padding: 8px;
+      margin-left: 4px;
+      font-size: 18px;
+    }
+
+    .offline-banner {
+      display: none;
+      background: #f5a623;
+      color: #1a1a1a;
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .offline-banner.visible {
+      display: block;
+    }
+
+    .form-section {
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 2px;
+    }
+
+    .form-group .label-en {
+      display: block;
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      color: #1a1a1a;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+    }
+
+    .form-group input.input-error {
+      border-color: #cc0000;
+      box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.08);
+    }
+
+    .form-group input[readonly] {
+      background: #f5f5f5;
+      font-weight: 700;
+      color: #1a1a1a;
+      border-color: #ddd;
+    }
+
+    .error-msg {
+      display: none;
+      font-size: 12px;
+      color: #cc0000;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    .date-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .date-row .form-group {
+      flex: 1;
+    }
+
+    .total-display {
+      text-align: center;
+      padding: 16px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    .total-display .total-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+
+    .total-display .total-label {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-actions {
+      margin-top: 8px;
+      margin-bottom: 24px;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #1a1a1a;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:active {
+      background: #333;
+    }
+
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #888;
+      background: transparent;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-secondary:active {
+      color: #cc0000;
+      border-color: #cc0000;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 16px 32px;
+      color: #aaa;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 600px) {
+      main {
+        max-width: 540px;
+        padding: 24px;
+      }
+
+      .form-section {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="assets/duiker_logo.png" alt="Duiker Jachtmontage B.V.">
+    <h1>Duiker Jachtmontage B.V.</h1>
+    <p>Urenstaat / Timesheet</p>
+  </header>
+
+  <main>
+    <div class="install-banner" id="installBanner">
+      <span>Installeer als app / Install as app</span>
+      <div>
+        <button id="installBtn">Installeer</button>
+        <button class="dismiss" id="dismissInstall">&times;</button>
+      </div>
+    </div>
+
+    <div class="offline-banner" id="offlineBanner">
+      Offline modus / Offline mode
+    </div>
+
+    <form id="urenstaat-form" novalidate>
+
+      <!-- Worker Info -->
+      <div class="form-section">
+        <div class="section-title">Medewerker / Worker Info</div>
+
+        <div class="form-group">
+          <label for="naam">Naam medewerker</label>
+          <span class="label-en">Worker name</span>
+          <input type="text" id="naam" required autocomplete="name" placeholder="Volledige naam / Full name">
+          <span class="error-msg" id="naam-error">Vul uw naam in / Enter your name</span>
+        </div>
+
+        <div class="form-group">
+          <label for="weeknr">Weeknummer</label>
+          <span class="label-en">Week number</span>
+          <input type="number" id="weeknr" min="1" max="53" required inputmode="numeric" placeholder="1–53">
+          <span class="error-msg" id="weeknr-error">Vul een geldig weeknummer in (1–53)</span>
+        </div>
+
+        <div class="date-row">
+          <div class="form-group">
+            <label for="datumVan">Datum van</label>
+            <span class="label-en">Date from</span>
+            <input type="date" id="datumVan">
+          </div>
+          <div class="form-group">
+            <label for="datumTot">Datum t/m</label>
+            <span class="label-en">Date to</span>
+            <input type="date" id="datumTot">
+          </div>
+        </div>
+      </div>
+
+      <!-- Hours -->
+      <div class="form-section">
+        <div class="section-title">Gewerkte uren / Hours Worked</div>
+
+        <div class="form-group">
+          <label for="urenNormaal">Normale uren</label>
+          <span class="label-en">Normal time</span>
+          <input type="number" id="urenNormaal" min="0" step="0.5" inputmode="decimal" placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label for="urenOverwerk">Overwerk (ma–vr)</label>
+          <span class="label-en">Overtime (Mon–Fri)</span>
+          <input type="number" id="urenOverwerk" min="0" step="0.5" inputmode="decimal" placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label for="urenZaterdag">Weekend (zaterdag)</label>
+          <span class="label-en">Weekend (Saturday)</span>
+          <input type="number" id="urenZaterdag" min="0" step="0.5" inputmode="decimal" placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label for="urenZondag">Weekend (zondag)</label>
+          <span class="label-en">Weekend (Sunday)</span>
+          <input type="number" id="urenZondag" min="0" step="0.5" inputmode="decimal" placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label for="urenFeestdag">Feestdagen</label>
+          <span class="label-en">Public holiday</span>
+          <input type="number" id="urenFeestdag" min="0" step="0.5" inputmode="decimal" placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label for="urenBuitenland">Uren buitenland</label>
+          <span class="label-en">Hours worked in foreign country</span>
+          <input type="number" id="urenBuitenland" min="0" step="0.5" inputmode="decimal" placeholder="0">
+        </div>
+
+        <div class="total-display">
+          <div class="total-value" id="totaalUren">0.0</div>
+          <div class="total-label">Totaal uren / Total hours</div>
+        </div>
+      </div>
+
+      <!-- Mileage -->
+      <div class="form-section">
+        <div class="section-title">Kilometers / Mileage</div>
+
+        <div class="form-group">
+          <label for="kilometers">Totaal gereden kilometers</label>
+          <span class="label-en">Total mileage driven (km)</span>
+          <input type="number" id="kilometers" min="0" step="1" inputmode="numeric" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-primary" id="generatePdf">Genereer PDF / Generate PDF</button>
+        <button type="button" class="btn-secondary" id="resetForm">Formulier wissen / Clear form</button>
+      </div>
+
+    </form>
+  </main>
+
+  <footer>
+    Duiker Jachtmontage B.V.<br>
+    Beukerstraat 18, 4388PE Oost-Souburg, Nederland<br>
+    KvK: 98948806
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      // --- Service Worker ---
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+      }
+
+      // --- DOM refs ---
+      const form = document.getElementById('urenstaat-form');
+      const naam = document.getElementById('naam');
+      const weeknr = document.getElementById('weeknr');
+      const datumVan = document.getElementById('datumVan');
+      const datumTot = document.getElementById('datumTot');
+      const hourFields = ['urenNormaal', 'urenOverwerk', 'urenZaterdag', 'urenZondag', 'urenFeestdag', 'urenBuitenland']
+        .map(id => document.getElementById(id));
+      const totaalDisplay = document.getElementById('totaalUren');
+      const kmField = document.getElementById('kilometers');
+      const generateBtn = document.getElementById('generatePdf');
+      const resetBtn = document.getElementById('resetForm');
+
+      // --- LocalStorage: remember name ---
+      const savedName = localStorage.getItem('duiker_naam');
+      if (savedName) naam.value = savedName;
+
+      // --- ISO Week Number ---
+      function getISOWeek(date) {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+      }
+
+      function getMondayOfWeek(weekNum, year) {
+        const jan4 = new Date(year, 0, 4);
+        const dayOfWeek = jan4.getDay() || 7;
+        const monday = new Date(jan4);
+        monday.setDate(jan4.getDate() - dayOfWeek + 1 + (weekNum - 1) * 7);
+        return monday;
+      }
+
+      function formatDateInput(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+
+      function formatDateDisplay(date) {
+        const d = String(date.getDate()).padStart(2, '0');
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const y = date.getFullYear();
+        return `${d}-${m}-${y}`;
+      }
+
+      function populateDates() {
+        const wk = parseInt(weeknr.value);
+        if (!wk || wk < 1 || wk > 53) return;
+        const year = new Date().getFullYear();
+        const monday = getMondayOfWeek(wk, year);
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        datumVan.value = formatDateInput(monday);
+        datumTot.value = formatDateInput(sunday);
+      }
+
+      // Auto-populate on load
+      const today = new Date();
+      weeknr.value = getISOWeek(today);
+      populateDates();
+
+      weeknr.addEventListener('change', populateDates);
+
+      // --- Auto-calculate total ---
+      function updateTotal() {
+        let total = 0;
+        hourFields.forEach(f => { total += parseFloat(f.value) || 0; });
+        totaalDisplay.textContent = total.toFixed(1);
+      }
+
+      hourFields.forEach(f => f.addEventListener('input', updateTotal));
+
+      // --- Validation ---
+      function clearErrors() {
+        form.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+        form.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
+      }
+
+      function showError(fieldId) {
+        const field = document.getElementById(fieldId);
+        const errMsg = document.getElementById(fieldId + '-error');
+        if (field) field.classList.add('input-error');
+        if (errMsg) errMsg.classList.add('visible');
+        return field;
+      }
+
+      function validate() {
+        clearErrors();
+        let firstError = null;
+
+        if (!naam.value.trim()) {
+          firstError = firstError || showError('naam');
+        }
+
+        const wk = parseInt(weeknr.value);
+        if (!wk || wk < 1 || wk > 53) {
+          firstError = firstError || showError('weeknr');
+        }
+
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return false;
+        }
+        return true;
+      }
+
+      // --- Logo preload for PDF ---
+      let logoDataUrl = null;
+      function preloadLogo() {
+        return fetch('assets/duiker_logo.png')
+          .then(r => r.blob())
+          .then(blob => new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => { logoDataUrl = reader.result; resolve(); };
+            reader.readAsDataURL(blob);
+          }))
+          .catch(() => { /* logo unavailable, PDF will be generated without it */ });
+      }
+      preloadLogo();
+
+      // --- PDF Generation ---
+      function generatePDF() {
+        if (!validate()) return;
+
+        localStorage.setItem('duiker_naam', naam.value.trim());
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const pageW = 210;
+        const margin = 15;
+        const contentW = pageW - margin * 2;
+
+        // --- Header band ---
+        doc.setFillColor(26, 26, 26);
+        doc.rect(0, 0, pageW, 44, 'F');
+
+        let logoX = margin;
+        let textX = margin;
+
+        if (logoDataUrl) {
+          try {
+            doc.addImage(logoDataUrl, 'PNG', margin, 6, 32, 32);
+            textX = margin + 38;
+          } catch (e) { /* skip logo on error */ }
+        }
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.text('Duiker Jachtmontage B.V.', textX, 18);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+        doc.text('URENSTAAT / TIMESHEET', textX, 26);
+
+        doc.setFontSize(8);
+        doc.setTextColor(170, 170, 170);
+        doc.text('Beukerstraat 18, 4388PE Oost-Souburg, Nederland  |  KvK: 98948806', textX, 34);
+
+        // --- Worker Info ---
+        let y = 56;
+        doc.setFillColor(245, 245, 245);
+        doc.roundedRect(margin, y, contentW, 28, 3, 3, 'F');
+
+        doc.setTextColor(136, 136, 136);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('MEDEWERKER / WORKER', margin + 6, y + 7);
+
+        doc.setTextColor(26, 26, 26);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Naam / Name:', margin + 6, y + 15);
+        doc.setFont('helvetica', 'bold');
+        doc.text(naam.value.trim(), margin + 38, y + 15);
+
+        doc.setFont('helvetica', 'normal');
+        doc.text('Week:', margin + 6, y + 22);
+        doc.setFont('helvetica', 'bold');
+        doc.text(weeknr.value, margin + 22, y + 22);
+
+        const dvVal = datumVan.value ? formatDateDisplay(new Date(datumVan.value + 'T00:00:00')) : '—';
+        const dtVal = datumTot.value ? formatDateDisplay(new Date(datumTot.value + 'T00:00:00')) : '—';
+        doc.setFont('helvetica', 'normal');
+        doc.text('Periode / Period:', margin + 50, y + 22);
+        doc.setFont('helvetica', 'bold');
+        doc.text(dvVal + '  t/m  ' + dtVal, margin + 82, y + 22);
+
+        // --- Hours Table ---
+        y = 94;
+        doc.setTextColor(136, 136, 136);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('GEWERKTE UREN / HOURS WORKED', margin, y);
+
+        y += 6;
+        const rowH = 10;
+        const rows = [
+          { nl: 'Normale uren', en: 'Normal time', val: hourFields[0].value },
+          { nl: 'Overwerk (ma–vr)', en: 'Overtime (Mon–Fri)', val: hourFields[1].value },
+          { nl: 'Weekend (zaterdag)', en: 'Saturday', val: hourFields[2].value },
+          { nl: 'Weekend (zondag)', en: 'Sunday', val: hourFields[3].value },
+          { nl: 'Feestdagen', en: 'Public holiday', val: hourFields[4].value },
+          { nl: 'Uren buitenland', en: 'Foreign country', val: hourFields[5].value },
+        ];
+
+        rows.forEach((row, i) => {
+          if (i % 2 === 0) {
+            doc.setFillColor(249, 249, 249);
+            doc.rect(margin, y, contentW, rowH, 'F');
+          }
+
+          doc.setTextColor(26, 26, 26);
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'normal');
+          doc.text(row.nl, margin + 4, y + 6.5);
+
+          doc.setFontSize(8);
+          doc.setTextColor(136, 136, 136);
+          doc.text(row.en, margin + 4 + doc.getTextWidth(row.nl + '  '), y + 6.5);
+
+          const hours = parseFloat(row.val) || 0;
+          doc.setTextColor(26, 26, 26);
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'bold');
+          doc.text(hours.toFixed(1), margin + contentW - 4, y + 6.5, { align: 'right' });
+
+          y += rowH;
+        });
+
+        // Total row
+        doc.setFillColor(26, 26, 26);
+        doc.rect(margin, y, contentW, rowH + 2, 'F');
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.text('TOTAAL / TOTAL', margin + 4, y + 7.5);
+
+        const total = parseFloat(totaalDisplay.textContent) || 0;
+        doc.text(total.toFixed(1), margin + contentW - 4, y + 7.5, { align: 'right' });
+
+        y += rowH + 10;
+
+        // --- Kilometers ---
+        doc.setTextColor(136, 136, 136);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('KILOMETERS / MILEAGE', margin, y);
+
+        y += 6;
+        doc.setFillColor(249, 249, 249);
+        doc.rect(margin, y, contentW, rowH, 'F');
+
+        doc.setTextColor(26, 26, 26);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Totaal gereden kilometers / Total mileage driven', margin + 4, y + 6.5);
+
+        const km = parseFloat(kmField.value) || 0;
+        doc.setFont('helvetica', 'bold');
+        doc.text(km.toFixed(0) + ' km', margin + contentW - 4, y + 6.5, { align: 'right' });
+
+        y += rowH + 16;
+
+        // --- Signature area ---
+        doc.setTextColor(136, 136, 136);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('HANDTEKENINGEN / SIGNATURES', margin, y);
+
+        y += 8;
+        const sigW = (contentW - 16) / 2;
+
+        // Worker signature
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, y + 20, margin + sigW, y + 20);
+        doc.setTextColor(136, 136, 136);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Medewerker / Worker', margin, y + 26);
+        doc.text('Datum / Date: _______________', margin, y + 32);
+
+        // Supervisor signature
+        doc.line(margin + sigW + 16, y + 20, margin + contentW, y + 20);
+        doc.text('Leidinggevende / Supervisor', margin + sigW + 16, y + 26);
+        doc.text('Datum / Date: _______________', margin + sigW + 16, y + 32);
+
+        // --- Footer ---
+        const footerY = 280;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, footerY, margin + contentW, footerY);
+
+        doc.setTextColor(170, 170, 170);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Duiker Jachtmontage B.V.  |  Beukerstraat 18, 4388PE Oost-Souburg  |  KvK: 98948806', pageW / 2, footerY + 5, { align: 'center' });
+
+        const now = new Date();
+        const genDate = formatDateDisplay(now) + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+        doc.text('Gegenereerd op / Generated: ' + genDate, pageW / 2, footerY + 10, { align: 'center' });
+
+        // --- Save ---
+        const safeName = naam.value.trim().replace(/[^a-zA-Z0-9]/g, '_');
+        const filename = 'Urenstaat_' + safeName + '_Week' + weeknr.value + '_' + now.getFullYear() + '.pdf';
+
+        // iOS Safari workaround
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+          const blob = doc.output('blob');
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+        } else {
+          doc.save(filename);
+        }
+      }
+
+      generateBtn.addEventListener('click', generatePDF);
+
+      // --- Reset ---
+      resetBtn.addEventListener('click', function() {
+        if (confirm('Formulier wissen? / Clear form?')) {
+          hourFields.forEach(f => f.value = '');
+          kmField.value = '';
+          updateTotal();
+          clearErrors();
+          // Keep name and week
+        }
+      });
+
+      // --- PWA Install Prompt ---
+      let deferredPrompt = null;
+      const installBanner = document.getElementById('installBanner');
+      const installBtn = document.getElementById('installBtn');
+      const dismissInstall = document.getElementById('dismissInstall');
+
+      window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBanner.classList.add('visible');
+      });
+
+      installBtn.addEventListener('click', function() {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function() {
+            deferredPrompt = null;
+            installBanner.classList.remove('visible');
+          });
+        }
+      });
+
+      dismissInstall.addEventListener('click', function() {
+        installBanner.classList.remove('visible');
+      });
+
+      // --- Offline indicator ---
+      const offlineBanner = document.getElementById('offlineBanner');
+
+      function updateOnlineStatus() {
+        if (!navigator.onLine) {
+          offlineBanner.classList.add('visible');
+        } else {
+          offlineBanner.classList.remove('visible');
+        }
+      }
+
+      window.addEventListener('online', updateOnlineStatus);
+      window.addEventListener('offline', updateOnlineStatus);
+      updateOnlineStatus();
+
+    })();
+  </script>
+</body>
+</html>
