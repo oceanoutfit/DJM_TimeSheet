@@ -1,10 +1,10 @@
-const CACHE_NAME = 'duiker-urenstaat-v1';
+const CACHE_NAME = 'duiker-urenstaat-v2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './assets/duiker_logo.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js'
+  './jspdf.umd.min.js'
 ];
 
 self.addEventListener('install', event => {
