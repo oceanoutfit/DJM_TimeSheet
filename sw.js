@@ -1,4 +1,4 @@
-const CACHE_NAME = 'duiker-urenstaat-v6';
+const CACHE_NAME = 'duiker-urenstaat-v7';
 const ASSETS = [
   './',
   './index.html',

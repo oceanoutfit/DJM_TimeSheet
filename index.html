@@ -989,6 +989,7 @@
       var clientNameInput = document.getElementById('clientName');
 
       var currentDraftId = null;
+      var currentDraftData = null;
 
       // ============================
       //  LocalStorage: remember name
@@ -1255,6 +1256,7 @@
         getDraft(draftId, function(draft) {
           if (!draft) return;
           currentDraftId = draftId;
+          currentDraftData = draft;
 
           // Populate review fields
           document.getElementById('revNaam').textContent = draft.naam;
@@ -1326,6 +1328,7 @@
 
       btnBack.addEventListener('click', function() {
         currentDraftId = null;
+        currentDraftData = null;
         showView('drafts');
       });
 
@@ -1485,12 +1488,8 @@
       //  PDF Export (signed only)
       // ============================
       btnExportPdf.addEventListener('click', function() {
-        if (!currentDraftId) return;
-
-        getDraft(currentDraftId, function(draft) {
-          if (!draft || draft.status !== 'signed') return;
-          generateSignedPDF(draft);
-        });
+        if (!currentDraftData || currentDraftData.status !== 'signed') return;
+        generateSignedPDF(currentDraftData);
       });
 
       function generateSignedPDF(draft) {
