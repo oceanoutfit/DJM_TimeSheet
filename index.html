@@ -155,7 +155,7 @@
       font-weight: 400;
     }
 
-    .form-group input {
+    .form-group input, .form-group textarea {
       width: 100%;
       padding: 12px;
       font-size: 16px;
@@ -168,7 +168,13 @@
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .form-group input:focus {
+    .form-group textarea {
+      resize: vertical;
+      min-height: 60px;
+      font-family: inherit;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
       outline: none;
       border-color: #1a1a1a;
       box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
@@ -254,6 +260,19 @@
       background: #333;
     }
 
+    .btn-primary:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    .btn-approve {
+      background: #1b7a3d;
+    }
+
+    .btn-approve:active {
+      background: #156331;
+    }
+
     .btn-secondary {
       display: block;
       width: 100%;
@@ -274,12 +293,324 @@
       border-color: #cc0000;
     }
 
+    .btn-danger {
+      color: #cc0000;
+      border-color: #cc0000;
+    }
+
+    .btn-danger:active {
+      background: #cc0000;
+      color: #fff;
+    }
+
     footer {
       text-align: center;
       padding: 20px 16px 32px;
       color: #aaa;
       font-size: 11px;
       line-height: 1.6;
+    }
+
+    /* --- Drafts List --- */
+    .drafts-section {
+      margin-bottom: 16px;
+    }
+
+    .draft-item {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .draft-item:active {
+      border-color: #1a1a1a;
+    }
+
+    .draft-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .draft-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .draft-meta {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .draft-status {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+
+    .status-draft {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .status-signed {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .draft-delete {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 18px;
+      padding: 4px 8px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
+    .draft-delete:active {
+      color: #cc0000;
+    }
+
+    .empty-drafts {
+      text-align: center;
+      padding: 20px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    /* --- Review Mode --- */
+    .review-field {
+      padding: 10px 12px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .review-field .review-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: #888;
+      margin-bottom: 2px;
+    }
+
+    .review-hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+    }
+
+    .review-hours-row:last-child {
+      border-bottom: none;
+    }
+
+    .review-hours-label {
+      color: #555;
+    }
+
+    .review-hours-value {
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    /* --- Signature Pad --- */
+    .signature-section {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 20px 16px;
+      margin-bottom: 16px;
+    }
+
+    .signature-canvas-wrap {
+      position: relative;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      background: #fafafa;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .signature-canvas-wrap.has-signature {
+      border-style: solid;
+      border-color: #1b7a3d;
+    }
+
+    .signature-canvas {
+      display: block;
+      width: 100%;
+      height: 150px;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .signature-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #bbb;
+      font-size: 14px;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    .signature-canvas-wrap.has-signature .signature-placeholder {
+      display: none;
+    }
+
+    .signature-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+      gap: 8px;
+    }
+
+    .signature-actions button {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .signature-actions button:active {
+      color: #1a1a1a;
+      border-color: #1a1a1a;
+    }
+
+    .signed-stamp {
+      text-align: center;
+      padding: 12px;
+      background: #e8f5e9;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+
+    .signed-stamp .stamp-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .signed-stamp .stamp-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+
+    .signed-stamp .stamp-date {
+      font-size: 11px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    /* --- View Tabs --- */
+    .view-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .view-tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      background: #fff;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .view-tab.active {
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #1a1a1a;
+    }
+
+    .view-tab .tab-count {
+      display: inline-block;
+      background: #e65100;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+
+    .view-tab.active .tab-count {
+      background: #fff;
+      color: #1a1a1a;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* --- Client Name Input --- */
+    .client-name-group {
+      margin-bottom: 12px;
+    }
+
+    .client-name-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 2px;
+    }
+
+    .client-name-group .label-en {
+      display: block;
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 6px;
+      font-weight: 400;
+    }
+
+    .client-name-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      color: #1a1a1a;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .client-name-group input:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
     }
 
     @media (min-width: 600px) {
@@ -315,110 +646,233 @@
       Offline modus / Offline mode
     </div>
 
-    <form id="urenstaat-form" novalidate>
+    <!-- View Tabs -->
+    <div class="view-tabs">
+      <div class="view-tab active" id="tabNew">Nieuw / New</div>
+      <div class="view-tab" id="tabDrafts">Concepten / Drafts <span class="tab-count hidden" id="draftCount">0</span></div>
+    </div>
 
-      <!-- Worker Info -->
-      <div class="form-section">
-        <div class="section-title">Medewerker / Worker Info</div>
+    <!-- === NEW TIMESHEET VIEW === -->
+    <div id="viewNew">
+      <form id="urenstaat-form" novalidate>
 
-        <div class="form-group">
-          <label for="naam">Naam medewerker</label>
-          <span class="label-en">Worker name</span>
-          <input type="text" id="naam" required autocomplete="name" placeholder="Volledige naam / Full name">
-          <span class="error-msg" id="naam-error">Vul uw naam in / Enter your name</span>
-        </div>
+        <!-- Worker Info -->
+        <div class="form-section">
+          <div class="section-title">Medewerker / Worker Info</div>
 
-        <div class="form-group">
-          <label for="project">Project / Werf</label>
-          <span class="label-en">Project / Shipyard</span>
-          <input type="text" id="project" placeholder="Projectnaam / Project name">
-        </div>
-
-        <div class="form-group">
-          <label for="weeknr">Weeknummer</label>
-          <span class="label-en">Week number</span>
-          <input type="number" id="weeknr" min="1" max="53" required inputmode="numeric" placeholder="1–53">
-          <span class="error-msg" id="weeknr-error">Vul een geldig weeknummer in (1–53)</span>
-        </div>
-
-        <div class="date-row">
           <div class="form-group">
-            <label for="datumVan">Datum van</label>
-            <span class="label-en">Date from</span>
-            <input type="date" id="datumVan">
+            <label for="naam">Naam medewerker</label>
+            <span class="label-en">Worker name</span>
+            <input type="text" id="naam" required autocomplete="name" placeholder="Volledige naam / Full name">
+            <span class="error-msg" id="naam-error">Vul uw naam in / Enter your name</span>
           </div>
+
           <div class="form-group">
-            <label for="datumTot">Datum t/m</label>
-            <span class="label-en">Date to</span>
-            <input type="date" id="datumTot">
+            <label for="project">Project / Werf</label>
+            <span class="label-en">Project / Shipyard</span>
+            <input type="text" id="project" placeholder="Projectnaam / Project name">
+          </div>
+
+          <div class="form-group">
+            <label for="weeknr">Weeknummer</label>
+            <span class="label-en">Week number</span>
+            <input type="number" id="weeknr" min="1" max="53" required inputmode="numeric" placeholder="1-53">
+            <span class="error-msg" id="weeknr-error">Vul een geldig weeknummer in (1-53)</span>
+          </div>
+
+          <div class="date-row">
+            <div class="form-group">
+              <label for="datumVan">Datum van</label>
+              <span class="label-en">Date from</span>
+              <input type="date" id="datumVan">
+            </div>
+            <div class="form-group">
+              <label for="datumTot">Datum t/m</label>
+              <span class="label-en">Date to</span>
+              <input type="date" id="datumTot">
+            </div>
+          </div>
+        </div>
+
+        <!-- Hours -->
+        <div class="form-section">
+          <div class="section-title">Gewerkte uren / Hours Worked</div>
+
+          <div class="form-group">
+            <label for="urenNormaal">Normale uren</label>
+            <span class="label-en">Normal time</span>
+            <input type="number" id="urenNormaal" min="0" step="0.5" inputmode="decimal" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="urenOverwerk">Overwerk (ma-vr)</label>
+            <span class="label-en">Overtime (Mon-Fri)</span>
+            <input type="number" id="urenOverwerk" min="0" step="0.5" inputmode="decimal" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="urenZaterdag">Weekend (zaterdag)</label>
+            <span class="label-en">Weekend (Saturday)</span>
+            <input type="number" id="urenZaterdag" min="0" step="0.5" inputmode="decimal" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="urenZondag">Weekend (zondag)</label>
+            <span class="label-en">Weekend (Sunday)</span>
+            <input type="number" id="urenZondag" min="0" step="0.5" inputmode="decimal" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="urenFeestdag">Feestdagen</label>
+            <span class="label-en">Public holiday</span>
+            <input type="number" id="urenFeestdag" min="0" step="0.5" inputmode="decimal" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="urenBuitenland">Uren buitenland</label>
+            <span class="label-en">Hours worked in foreign country</span>
+            <input type="number" id="urenBuitenland" min="0" step="0.5" inputmode="decimal" placeholder="0">
+          </div>
+
+          <div class="total-display">
+            <div class="total-value" id="totaalUren">0.0</div>
+            <div class="total-label">Totaal uren / Total hours</div>
+          </div>
+        </div>
+
+        <!-- Mileage -->
+        <div class="form-section">
+          <div class="section-title">Kilometers / Mileage</div>
+
+          <div class="form-group">
+            <label for="kilometers">Totaal gereden kilometers</label>
+            <span class="label-en">Total mileage driven (km)</span>
+            <input type="number" id="kilometers" min="0" step="1" inputmode="numeric" placeholder="0">
+          </div>
+          <div style="font-size:11px;color:#888;font-style:italic;margin-top:4px;">Alleen voor interne administratie — wordt niet in rekening gebracht.<br>For internal records only — not charged to client.</div>
+        </div>
+
+        <!-- Opmerkingen / Notes -->
+        <div class="form-section">
+          <div class="section-title">Opmerkingen / Notes</div>
+
+          <div class="form-group">
+            <label for="opmerkingen">Opmerkingen</label>
+            <span class="label-en">Notes (optional)</span>
+            <textarea id="opmerkingen" rows="3" placeholder="Eventuele opmerkingen / Any notes"></textarea>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn-primary" id="saveDraft">Opslaan voor goedkeuring / Save for Client Approval</button>
+          <button type="button" class="btn-secondary" id="resetForm">Formulier wissen / Clear form</button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- === DRAFTS LIST VIEW === -->
+    <div id="viewDrafts" class="hidden">
+      <div class="drafts-section" id="draftsList">
+        <div class="empty-drafts" id="emptyDrafts">Geen concepten / No drafts</div>
+      </div>
+    </div>
+
+    <!-- === REVIEW / SIGN VIEW === -->
+    <div id="viewReview" class="hidden">
+      <div class="form-section">
+        <div class="section-title">Urenstaat ter beoordeling / Timesheet for Review</div>
+
+        <div class="review-field">
+          <div class="review-label">Medewerker / Worker</div>
+          <div id="revNaam">-</div>
+        </div>
+
+        <div class="review-field">
+          <div class="review-label">Project / Werf</div>
+          <div id="revProject">-</div>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+          <div class="review-field" style="flex:1;">
+            <div class="review-label">Week</div>
+            <div id="revWeek">-</div>
+          </div>
+          <div class="review-field" style="flex:2;">
+            <div class="review-label">Periode / Period</div>
+            <div id="revPeriod">-</div>
           </div>
         </div>
       </div>
 
-      <!-- Hours -->
       <div class="form-section">
         <div class="section-title">Gewerkte uren / Hours Worked</div>
-
-        <div class="form-group">
-          <label for="urenNormaal">Normale uren</label>
-          <span class="label-en">Normal time</span>
-          <input type="number" id="urenNormaal" min="0" step="0.5" inputmode="decimal" placeholder="0">
-        </div>
-
-        <div class="form-group">
-          <label for="urenOverwerk">Overwerk (ma–vr)</label>
-          <span class="label-en">Overtime (Mon–Fri)</span>
-          <input type="number" id="urenOverwerk" min="0" step="0.5" inputmode="decimal" placeholder="0">
-        </div>
-
-        <div class="form-group">
-          <label for="urenZaterdag">Weekend (zaterdag)</label>
-          <span class="label-en">Weekend (Saturday)</span>
-          <input type="number" id="urenZaterdag" min="0" step="0.5" inputmode="decimal" placeholder="0">
-        </div>
-
-        <div class="form-group">
-          <label for="urenZondag">Weekend (zondag)</label>
-          <span class="label-en">Weekend (Sunday)</span>
-          <input type="number" id="urenZondag" min="0" step="0.5" inputmode="decimal" placeholder="0">
-        </div>
-
-        <div class="form-group">
-          <label for="urenFeestdag">Feestdagen</label>
-          <span class="label-en">Public holiday</span>
-          <input type="number" id="urenFeestdag" min="0" step="0.5" inputmode="decimal" placeholder="0">
-        </div>
-
-        <div class="form-group">
-          <label for="urenBuitenland">Uren buitenland</label>
-          <span class="label-en">Hours worked in foreign country</span>
-          <input type="number" id="urenBuitenland" min="0" step="0.5" inputmode="decimal" placeholder="0">
-        </div>
-
-        <div class="total-display">
-          <div class="total-value" id="totaalUren">0.0</div>
+        <div id="revHours"></div>
+        <div class="total-display" style="margin-top:12px;">
+          <div class="total-value" id="revTotal">0.0</div>
           <div class="total-label">Totaal uren / Total hours</div>
         </div>
       </div>
 
-      <!-- Mileage -->
       <div class="form-section">
         <div class="section-title">Kilometers / Mileage</div>
+        <div class="review-field">
+          <div class="review-label">Totaal gereden / Total driven</div>
+          <div id="revKm">0 km</div>
+        </div>
+        <div style="font-size:11px;color:#888;font-style:italic;margin-top:8px;">Alleen voor interne administratie — wordt niet in rekening gebracht.<br>For internal records only — not charged to client.</div>
+      </div>
 
-        <div class="form-group">
-          <label for="kilometers">Totaal gereden kilometers</label>
-          <span class="label-en">Total mileage driven (km)</span>
-          <input type="number" id="kilometers" min="0" step="1" inputmode="numeric" placeholder="0">
+      <div class="form-section" id="revNotesSection">
+        <div class="section-title">Opmerkingen / Notes</div>
+        <div class="review-field">
+          <div id="revNotes">-</div>
         </div>
       </div>
 
-      <!-- Actions -->
-      <div class="form-actions">
-        <button type="button" class="btn-primary" id="generatePdf">Genereer PDF / Generate PDF</button>
-        <button type="button" class="btn-secondary" id="resetForm">Formulier wissen / Clear form</button>
+      <!-- Signature Section -->
+      <div class="signature-section" id="signatureSection">
+        <div class="section-title">Handtekening opdrachtgever / Client Signature</div>
+
+        <div class="client-name-group">
+          <label for="clientName">Naam ondertekenaar</label>
+          <span class="label-en">Signer's name</span>
+          <input type="text" id="clientName" placeholder="Naam / Name" autocomplete="name">
+        </div>
+
+        <div class="signature-canvas-wrap" id="sigCanvasWrap">
+          <canvas class="signature-canvas" id="sigCanvas"></canvas>
+          <div class="signature-placeholder">Teken hier uw handtekening<br>Sign here</div>
+        </div>
+
+        <div class="signature-actions">
+          <button type="button" id="sigClear">Wissen / Clear</button>
+        </div>
       </div>
 
-    </form>
+      <!-- Already Signed Display -->
+      <div class="signature-section hidden" id="signedDisplay">
+        <div class="section-title">Handtekening opdrachtgever / Client Signature</div>
+        <div class="review-field">
+          <div class="review-label">Ondertekenaar / Signed by</div>
+          <div id="signedByName">-</div>
+        </div>
+        <div id="signedSigImage" style="text-align:center;margin:12px 0;"></div>
+        <div class="signed-stamp">
+          <div class="stamp-text">Goedgekeurd / Approved</div>
+          <div class="stamp-date" id="signedDate">-</div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-primary btn-approve hidden" id="btnSign">Ondertekenen en goedkeuren / Sign &amp; Approve</button>
+        <button type="button" class="btn-primary hidden" id="btnExportPdf">Exporteer PDF / Export PDF</button>
+        <button type="button" class="btn-secondary" id="btnBackToList">Terug naar concepten / Back to Drafts</button>
+        <button type="button" class="btn-secondary btn-danger hidden" id="btnDeleteDraft">Verwijder concept / Delete Draft</button>
+      </div>
+    </div>
+
   </main>
 
   <footer>
@@ -437,91 +891,186 @@
         navigator.serviceWorker.register('./sw.js');
       }
 
-      // --- DOM refs ---
-      const form = document.getElementById('urenstaat-form');
-      const naam = document.getElementById('naam');
-      const project = document.getElementById('project');
-      const weeknr = document.getElementById('weeknr');
-      const datumVan = document.getElementById('datumVan');
-      const datumTot = document.getElementById('datumTot');
-      const hourFields = ['urenNormaal', 'urenOverwerk', 'urenZaterdag', 'urenZondag', 'urenFeestdag', 'urenBuitenland']
-        .map(id => document.getElementById(id));
-      const totaalDisplay = document.getElementById('totaalUren');
-      const kmField = document.getElementById('kilometers');
-      const generateBtn = document.getElementById('generatePdf');
-      const resetBtn = document.getElementById('resetForm');
+      // ============================
+      //  IndexedDB Draft Storage
+      // ============================
+      var DB_NAME = 'DuikerUrenstaat';
+      var DB_VERSION = 1;
+      var STORE_NAME = 'drafts';
+      var db = null;
 
-      // --- LocalStorage: remember name ---
-      const savedName = localStorage.getItem('duiker_naam');
+      function openDB(callback) {
+        if (db) { callback(db); return; }
+        var req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = function(e) {
+          var d = e.target.result;
+          if (!d.objectStoreNames.contains(STORE_NAME)) {
+            d.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = function(e) {
+          db = e.target.result;
+          callback(db);
+        };
+        req.onerror = function() {
+          alert('Database error. Drafts may not persist.');
+        };
+      }
+
+      function saveDraftToDB(draft, callback) {
+        openDB(function(d) {
+          var tx = d.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).put(draft);
+          tx.oncomplete = function() { if (callback) callback(); };
+        });
+      }
+
+      function getAllDrafts(callback) {
+        openDB(function(d) {
+          var tx = d.transaction(STORE_NAME, 'readonly');
+          var req = tx.objectStore(STORE_NAME).getAll();
+          req.onsuccess = function() { callback(req.result || []); };
+        });
+      }
+
+      function getDraft(id, callback) {
+        openDB(function(d) {
+          var tx = d.transaction(STORE_NAME, 'readonly');
+          var req = tx.objectStore(STORE_NAME).get(id);
+          req.onsuccess = function() { callback(req.result || null); };
+        });
+      }
+
+      function deleteDraftFromDB(id, callback) {
+        openDB(function(d) {
+          var tx = d.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).delete(id);
+          tx.oncomplete = function() { if (callback) callback(); };
+        });
+      }
+
+      // ============================
+      //  DOM Refs
+      // ============================
+      var form = document.getElementById('urenstaat-form');
+      var naam = document.getElementById('naam');
+      var project = document.getElementById('project');
+      var weeknr = document.getElementById('weeknr');
+      var datumVan = document.getElementById('datumVan');
+      var datumTot = document.getElementById('datumTot');
+      var opmerkingen = document.getElementById('opmerkingen');
+      var hourFieldIds = ['urenNormaal', 'urenOverwerk', 'urenZaterdag', 'urenZondag', 'urenFeestdag', 'urenBuitenland'];
+      var hourFields = hourFieldIds.map(function(id) { return document.getElementById(id); });
+      var totaalDisplay = document.getElementById('totaalUren');
+      var kmField = document.getElementById('kilometers');
+      var saveDraftBtn = document.getElementById('saveDraft');
+      var resetBtn = document.getElementById('resetForm');
+
+      // Tabs
+      var tabNew = document.getElementById('tabNew');
+      var tabDrafts = document.getElementById('tabDrafts');
+      var viewNew = document.getElementById('viewNew');
+      var viewDrafts = document.getElementById('viewDrafts');
+      var viewReview = document.getElementById('viewReview');
+      var draftCount = document.getElementById('draftCount');
+
+      // Review
+      var btnSign = document.getElementById('btnSign');
+      var btnExportPdf = document.getElementById('btnExportPdf');
+      var btnBack = document.getElementById('btnBackToList');
+      var btnDeleteDraft = document.getElementById('btnDeleteDraft');
+
+      // Signature
+      var sigCanvas = document.getElementById('sigCanvas');
+      var sigCanvasWrap = document.getElementById('sigCanvasWrap');
+      var sigClear = document.getElementById('sigClear');
+      var signatureSection = document.getElementById('signatureSection');
+      var signedDisplay = document.getElementById('signedDisplay');
+      var clientNameInput = document.getElementById('clientName');
+
+      var currentDraftId = null;
+
+      // ============================
+      //  LocalStorage: remember name
+      // ============================
+      var savedName = localStorage.getItem('duiker_naam');
       if (savedName) naam.value = savedName;
 
-      // --- ISO Week Number ---
+      // ============================
+      //  Date / Week Helpers
+      // ============================
       function getISOWeek(date) {
-        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-        const dayNum = d.getUTCDay() || 7;
+        var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        var dayNum = d.getUTCDay() || 7;
         d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
         return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
       }
 
       function getMondayOfWeek(weekNum, year) {
-        const jan4 = new Date(year, 0, 4);
-        const dayOfWeek = jan4.getDay() || 7;
-        const monday = new Date(jan4);
+        var jan4 = new Date(year, 0, 4);
+        var dayOfWeek = jan4.getDay() || 7;
+        var monday = new Date(jan4);
         monday.setDate(jan4.getDate() - dayOfWeek + 1 + (weekNum - 1) * 7);
         return monday;
       }
 
       function formatDateInput(date) {
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
+        var y = date.getFullYear();
+        var m = String(date.getMonth() + 1).padStart(2, '0');
+        var d = String(date.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + d;
       }
 
       function formatDateDisplay(date) {
-        const d = String(date.getDate()).padStart(2, '0');
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const y = date.getFullYear();
-        return `${d}-${m}-${y}`;
+        var d = String(date.getDate()).padStart(2, '0');
+        var m = String(date.getMonth() + 1).padStart(2, '0');
+        var y = date.getFullYear();
+        return d + '-' + m + '-' + y;
+      }
+
+      function formatDateTime(date) {
+        return formatDateDisplay(date) + ' ' + date.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
       }
 
       function populateDates() {
-        const wk = parseInt(weeknr.value);
+        var wk = parseInt(weeknr.value);
         if (!wk || wk < 1 || wk > 53) return;
-        const year = new Date().getFullYear();
-        const monday = getMondayOfWeek(wk, year);
-        const sunday = new Date(monday);
+        var year = new Date().getFullYear();
+        var monday = getMondayOfWeek(wk, year);
+        var sunday = new Date(monday);
         sunday.setDate(monday.getDate() + 6);
         datumVan.value = formatDateInput(monday);
         datumTot.value = formatDateInput(sunday);
       }
 
-      // Auto-populate on load
-      const today = new Date();
+      var today = new Date();
       weeknr.value = getISOWeek(today);
       populateDates();
-
       weeknr.addEventListener('change', populateDates);
 
-      // --- Auto-calculate total ---
+      // ============================
+      //  Auto-calculate total
+      // ============================
       function updateTotal() {
-        let total = 0;
-        hourFields.forEach(f => { total += parseFloat(f.value) || 0; });
+        var total = 0;
+        hourFields.forEach(function(f) { total += parseFloat(f.value) || 0; });
         totaalDisplay.textContent = total.toFixed(1);
       }
 
-      hourFields.forEach(f => f.addEventListener('input', updateTotal));
+      hourFields.forEach(function(f) { f.addEventListener('input', updateTotal); });
 
-      // --- Validation ---
+      // ============================
+      //  Validation
+      // ============================
       function clearErrors() {
-        form.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-        form.querySelectorAll('.error-msg').forEach(el => el.classList.remove('visible'));
+        form.querySelectorAll('.input-error').forEach(function(el) { el.classList.remove('input-error'); });
+        form.querySelectorAll('.error-msg').forEach(function(el) { el.classList.remove('visible'); });
       }
 
       function showError(fieldId) {
-        const field = document.getElementById(fieldId);
-        const errMsg = document.getElementById(fieldId + '-error');
+        var field = document.getElementById(fieldId);
+        var errMsg = document.getElementById(fieldId + '-error');
         if (field) field.classList.add('input-error');
         if (errMsg) errMsg.classList.add('visible');
         return field;
@@ -529,13 +1078,13 @@
 
       function validate() {
         clearErrors();
-        let firstError = null;
+        var firstError = null;
 
         if (!naam.value.trim()) {
           firstError = firstError || showError('naam');
         }
 
-        const wk = parseInt(weeknr.value);
+        var wk = parseInt(weeknr.value);
         if (!wk || wk < 1 || wk > 53) {
           firstError = firstError || showError('weeknr');
         }
@@ -547,45 +1096,422 @@
         return true;
       }
 
-      // --- Logo preload for PDF ---
-      let logoDataUrl = null;
-      function preloadLogo() {
-        return fetch('assets/duiker_logo.png')
-          .then(r => r.blob())
-          .then(blob => new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => { logoDataUrl = reader.result; resolve(); };
-            reader.readAsDataURL(blob);
-          }))
-          .catch(() => { /* logo unavailable, PDF will be generated without it */ });
-      }
-      preloadLogo();
+      // ============================
+      //  Tab Navigation
+      // ============================
+      function showView(view) {
+        viewNew.classList.add('hidden');
+        viewDrafts.classList.add('hidden');
+        viewReview.classList.add('hidden');
+        tabNew.classList.remove('active');
+        tabDrafts.classList.remove('active');
 
-      // --- PDF Generation ---
-      function generatePDF() {
+        if (view === 'new') {
+          viewNew.classList.remove('hidden');
+          tabNew.classList.add('active');
+        } else if (view === 'drafts') {
+          viewDrafts.classList.remove('hidden');
+          tabDrafts.classList.add('active');
+          renderDraftsList();
+        } else if (view === 'review') {
+          viewReview.classList.remove('hidden');
+          tabDrafts.classList.add('active');
+        }
+      }
+
+      tabNew.addEventListener('click', function() { showView('new'); });
+      tabDrafts.addEventListener('click', function() { showView('drafts'); });
+
+      // ============================
+      //  Save Draft
+      // ============================
+      function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+      }
+
+      saveDraftBtn.addEventListener('click', function() {
         if (!validate()) return;
 
         localStorage.setItem('duiker_naam', naam.value.trim());
 
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const pageW = 210;
-        const margin = 20;
-        const contentW = pageW - margin * 2;
-        const colLabel = margin + 5;
-        const colValue = margin + contentW - 5;
+        var hours = {};
+        hourFieldIds.forEach(function(id) {
+          hours[id] = parseFloat(document.getElementById(id).value) || 0;
+        });
 
-        // --- White header with logo ---
+        var total = 0;
+        hourFields.forEach(function(f) { total += parseFloat(f.value) || 0; });
+
+        var draft = {
+          id: generateId(),
+          status: 'draft',
+          createdAt: new Date().toISOString(),
+          naam: naam.value.trim(),
+          project: project.value.trim(),
+          weeknr: weeknr.value,
+          datumVan: datumVan.value,
+          datumTot: datumTot.value,
+          hours: hours,
+          total: total,
+          kilometers: parseFloat(kmField.value) || 0,
+          opmerkingen: opmerkingen.value.trim(),
+          signedBy: null,
+          signedAt: null,
+          signatureData: null
+        };
+
+        saveDraftToDB(draft, function() {
+          // Clear hours + km + notes, keep name/project/week
+          hourFields.forEach(function(f) { f.value = ''; });
+          kmField.value = '';
+          opmerkingen.value = '';
+          updateTotal();
+          clearErrors();
+
+          updateDraftCount();
+          showView('drafts');
+        });
+      });
+
+      // ============================
+      //  Render Drafts List
+      // ============================
+      function renderDraftsList() {
+        getAllDrafts(function(drafts) {
+          var container = document.getElementById('draftsList');
+          var empty = document.getElementById('emptyDrafts');
+
+          // Remove old items
+          container.querySelectorAll('.draft-item').forEach(function(el) { el.remove(); });
+
+          // Sort newest first
+          drafts.sort(function(a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+
+          if (drafts.length === 0) {
+            empty.classList.remove('hidden');
+            return;
+          }
+
+          empty.classList.add('hidden');
+
+          drafts.forEach(function(draft) {
+            var item = document.createElement('div');
+            item.className = 'draft-item';
+
+            var dvStr = draft.datumVan ? formatDateDisplay(new Date(draft.datumVan + 'T00:00:00')) : '';
+            var dtStr = draft.datumTot ? formatDateDisplay(new Date(draft.datumTot + 'T00:00:00')) : '';
+            var periodStr = dvStr && dtStr ? dvStr + ' - ' + dtStr : '';
+
+            var statusClass = draft.status === 'signed' ? 'status-signed' : 'status-draft';
+            var statusLabel = draft.status === 'signed' ? 'Getekend' : 'Concept';
+
+            item.innerHTML =
+              '<div class="draft-info">' +
+                '<div class="draft-name">' + escapeHtml(draft.naam) + '</div>' +
+                '<div class="draft-meta">Week ' + draft.weeknr + (draft.project ? ' &middot; ' + escapeHtml(draft.project) : '') + (periodStr ? ' &middot; ' + periodStr : '') + '</div>' +
+              '</div>' +
+              '<span class="draft-status ' + statusClass + '">' + statusLabel + '</span>';
+
+            item.addEventListener('click', function() {
+              openReview(draft.id);
+            });
+
+            container.appendChild(item);
+          });
+        });
+      }
+
+      function updateDraftCount() {
+        getAllDrafts(function(drafts) {
+          var pending = drafts.filter(function(d) { return d.status === 'draft'; }).length;
+          if (pending > 0) {
+            draftCount.textContent = pending;
+            draftCount.classList.remove('hidden');
+          } else {
+            draftCount.classList.add('hidden');
+          }
+        });
+      }
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // ============================
+      //  Review Mode
+      // ============================
+      var hourLabels = {
+        urenNormaal: 'Normale uren / Normal time',
+        urenOverwerk: 'Overwerk (ma-vr) / Overtime (Mon-Fri)',
+        urenZaterdag: 'Weekend (zaterdag) / Saturday',
+        urenZondag: 'Weekend (zondag) / Sunday',
+        urenFeestdag: 'Feestdagen / Public holiday',
+        urenBuitenland: 'Uren buitenland / Foreign country'
+      };
+
+      function openReview(draftId) {
+        getDraft(draftId, function(draft) {
+          if (!draft) return;
+          currentDraftId = draftId;
+
+          // Populate review fields
+          document.getElementById('revNaam').textContent = draft.naam;
+          document.getElementById('revProject').textContent = draft.project || '—';
+          document.getElementById('revWeek').textContent = draft.weeknr;
+
+          var dvStr = draft.datumVan ? formatDateDisplay(new Date(draft.datumVan + 'T00:00:00')) : '—';
+          var dtStr = draft.datumTot ? formatDateDisplay(new Date(draft.datumTot + 'T00:00:00')) : '—';
+          document.getElementById('revPeriod').textContent = dvStr + ' t/m ' + dtStr;
+
+          // Hours
+          var hoursContainer = document.getElementById('revHours');
+          hoursContainer.innerHTML = '';
+          hourFieldIds.forEach(function(id) {
+            var val = (draft.hours[id] || 0).toFixed(1);
+            var row = document.createElement('div');
+            row.className = 'review-hours-row';
+            row.innerHTML = '<span class="review-hours-label">' + hourLabels[id] + '</span><span class="review-hours-value">' + val + '</span>';
+            hoursContainer.appendChild(row);
+          });
+
+          document.getElementById('revTotal').textContent = draft.total.toFixed(1);
+          document.getElementById('revKm').textContent = (draft.kilometers || 0).toFixed(0) + ' km';
+
+          // Notes
+          var notesSection = document.getElementById('revNotesSection');
+          if (draft.opmerkingen) {
+            document.getElementById('revNotes').textContent = draft.opmerkingen;
+            notesSection.classList.remove('hidden');
+          } else {
+            notesSection.classList.add('hidden');
+          }
+
+          // Signature state
+          if (draft.status === 'signed') {
+            signatureSection.classList.add('hidden');
+            signedDisplay.classList.remove('hidden');
+            btnSign.classList.add('hidden');
+            btnExportPdf.classList.remove('hidden');
+            btnDeleteDraft.classList.add('hidden');
+
+            document.getElementById('signedByName').textContent = draft.signedBy || '—';
+            document.getElementById('signedDate').textContent = draft.signedAt ? formatDateTime(new Date(draft.signedAt)) : '—';
+
+            var sigImg = document.getElementById('signedSigImage');
+            if (draft.signatureData) {
+              sigImg.innerHTML = '<img src="' + draft.signatureData + '" style="max-width:100%;height:auto;border:1px solid #eee;border-radius:4px;" alt="Signature">';
+            } else {
+              sigImg.innerHTML = '';
+            }
+          } else {
+            signatureSection.classList.remove('hidden');
+            signedDisplay.classList.add('hidden');
+            btnSign.classList.remove('hidden');
+            btnExportPdf.classList.add('hidden');
+            btnDeleteDraft.classList.remove('hidden');
+            clientNameInput.value = '';
+            hasSigned = false;
+            sigCanvasWrap.classList.remove('has-signature');
+          }
+
+          showView('review');
+          window.scrollTo(0, 0);
+
+          // Resize signature canvas after layout is complete
+          setTimeout(resizeCanvas, 100);
+        });
+      }
+
+      btnBack.addEventListener('click', function() {
+        currentDraftId = null;
+        showView('drafts');
+      });
+
+      btnDeleteDraft.addEventListener('click', function() {
+        if (!currentDraftId) return;
+        if (confirm('Dit concept verwijderen? / Delete this draft?')) {
+          deleteDraftFromDB(currentDraftId, function() {
+            currentDraftId = null;
+            updateDraftCount();
+            showView('drafts');
+          });
+        }
+      });
+
+      // ============================
+      //  Signature Canvas
+      // ============================
+      var isDrawing = false;
+      var hasSigned = false;
+      var sigCtx = sigCanvas.getContext('2d');
+
+      function resizeCanvas() {
+        var rect = sigCanvasWrap.getBoundingClientRect();
+        if (rect.width < 1) return;
+        sigCanvas.width = rect.width;
+        sigCanvas.height = 150;
+        sigCtx.strokeStyle = '#1a1a1a';
+        sigCtx.lineWidth = 2.5;
+        sigCtx.lineCap = 'round';
+        sigCtx.lineJoin = 'round';
+      }
+
+      window.addEventListener('resize', function() {
+        if (!hasSigned) resizeCanvas();
+      });
+
+      function ensureCanvasReady() {
+        if (sigCanvas.width < 1) resizeCanvas();
+      }
+
+      function getPos(e) {
+        var rect = sigCanvas.getBoundingClientRect();
+        var touch = e.touches ? e.touches[0] : e;
+        var scaleX = sigCanvas.width / (rect.width || 1);
+        var scaleY = sigCanvas.height / (rect.height || 1);
+        return {
+          x: (touch.clientX - rect.left) * scaleX,
+          y: (touch.clientY - rect.top) * scaleY
+        };
+      }
+
+      sigCanvas.addEventListener('mousedown', function(e) {
+        ensureCanvasReady();
+        isDrawing = true;
+        var pos = getPos(e);
+        sigCtx.beginPath();
+        sigCtx.moveTo(pos.x, pos.y);
+      });
+
+      sigCanvas.addEventListener('mousemove', function(e) {
+        if (!isDrawing) return;
+        var pos = getPos(e);
+        sigCtx.lineTo(pos.x, pos.y);
+        sigCtx.stroke();
+        hasSigned = true;
+        sigCanvasWrap.classList.add('has-signature');
+      });
+
+      sigCanvas.addEventListener('mouseup', function() { isDrawing = false; });
+      sigCanvas.addEventListener('mouseleave', function() { isDrawing = false; });
+
+      sigCanvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        ensureCanvasReady();
+        isDrawing = true;
+        var pos = getPos(e);
+        sigCtx.beginPath();
+        sigCtx.moveTo(pos.x, pos.y);
+      }, { passive: false });
+
+      sigCanvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+        if (!isDrawing) return;
+        var pos = getPos(e);
+        sigCtx.lineTo(pos.x, pos.y);
+        sigCtx.stroke();
+        hasSigned = true;
+        sigCanvasWrap.classList.add('has-signature');
+      }, { passive: false });
+
+      sigCanvas.addEventListener('touchend', function() { isDrawing = false; });
+
+      function clearSignature() {
+        sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+        hasSigned = false;
+        sigCanvasWrap.classList.remove('has-signature');
+        resizeCanvas();
+      }
+
+      sigClear.addEventListener('click', clearSignature);
+
+      // ============================
+      //  Sign & Approve
+      // ============================
+      btnSign.addEventListener('click', function() {
+        if (!currentDraftId) return;
+
+        var signerName = clientNameInput.value.trim();
+        if (!signerName) {
+          alert('Vul de naam van de ondertekenaar in / Enter the signer\'s name');
+          clientNameInput.focus();
+          return;
+        }
+
+        if (!hasSigned) {
+          alert('Teken uw handtekening / Please sign');
+          return;
+        }
+
+        var signatureData = sigCanvas.toDataURL('image/png');
+        var signedAt = new Date().toISOString();
+
+        getDraft(currentDraftId, function(draft) {
+          if (!draft) return;
+
+          draft.status = 'signed';
+          draft.signedBy = signerName;
+          draft.signedAt = signedAt;
+          draft.signatureData = signatureData;
+
+          saveDraftToDB(draft, function() {
+            updateDraftCount();
+            openReview(currentDraftId);
+          });
+        });
+      });
+
+      // ============================
+      //  Logo preload for PDF
+      // ============================
+      var logoDataUrl = null;
+      function preloadLogo() {
+        return fetch('assets/duiker_logo.png')
+          .then(function(r) { return r.blob(); })
+          .then(function(blob) {
+            return new Promise(function(resolve) {
+              var reader = new FileReader();
+              reader.onload = function() { logoDataUrl = reader.result; resolve(); };
+              reader.readAsDataURL(blob);
+            });
+          })
+          .catch(function() {});
+      }
+      preloadLogo();
+
+      // ============================
+      //  PDF Export (signed only)
+      // ============================
+      btnExportPdf.addEventListener('click', function() {
+        if (!currentDraftId) return;
+
+        getDraft(currentDraftId, function(draft) {
+          if (!draft || draft.status !== 'signed') return;
+          generateSignedPDF(draft);
+        });
+      });
+
+      function generateSignedPDF(draft) {
+        var jsPDF = window.jspdf.jsPDF;
+        var doc = new jsPDF('p', 'mm', 'a4');
+        var pageW = 210;
+        var margin = 20;
+        var contentW = pageW - margin * 2;
+        var colLabel = margin + 5;
+        var colValue = margin + contentW - 5;
+
+        // Logo
         if (logoDataUrl) {
           try {
-            // Logo aspect ratio is 3.45:1 (918x266px)
             var logoW = 60;
             var logoH = logoW / 3.45;
             doc.addImage(logoDataUrl, 'PNG', pageW / 2 - logoW / 2, 10, logoW, logoH);
-          } catch (e) { /* skip logo */ }
+          } catch (e) {}
         }
 
-        let y = 38;
+        var y = 38;
         doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(16);
@@ -601,13 +1527,13 @@
         doc.setDrawColor(200, 200, 200);
         doc.line(margin, y, margin + contentW, y);
 
-        // --- Worker Info ---
+        // Worker Info Box
         y += 10;
         doc.setFillColor(245, 245, 245);
         doc.roundedRect(margin, y, contentW, 44, 2, 2, 'F');
 
-        const infoX1 = margin + 6;
-        const infoX2 = margin + 45;
+        var infoX1 = margin + 6;
+        var infoX2 = margin + 45;
 
         y += 8;
         doc.setTextColor(100, 100, 100);
@@ -617,7 +1543,7 @@
         doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
-        doc.text(naam.value.trim(), infoX2, y);
+        doc.text(draft.naam, infoX2, y);
 
         y += 8;
         doc.setTextColor(100, 100, 100);
@@ -627,7 +1553,7 @@
         doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
-        doc.text(project.value.trim() || '—', infoX2, y);
+        doc.text(draft.project || '—', infoX2, y);
 
         y += 8;
         doc.setTextColor(100, 100, 100);
@@ -637,11 +1563,11 @@
         doc.setTextColor(26, 26, 26);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
-        doc.text(weeknr.value, infoX2, y);
+        doc.text(String(draft.weeknr), infoX2, y);
 
         y += 8;
-        const dvVal = datumVan.value ? formatDateDisplay(new Date(datumVan.value + 'T00:00:00')) : '—';
-        const dtVal = datumTot.value ? formatDateDisplay(new Date(datumTot.value + 'T00:00:00')) : '—';
+        var dvVal = draft.datumVan ? formatDateDisplay(new Date(draft.datumVan + 'T00:00:00')) : '—';
+        var dtVal = draft.datumTot ? formatDateDisplay(new Date(draft.datumTot + 'T00:00:00')) : '—';
         doc.setTextColor(100, 100, 100);
         doc.setFontSize(9);
         doc.setFont('helvetica', 'normal');
@@ -653,7 +1579,7 @@
 
         y += 12;
 
-        // --- Hours Table ---
+        // Hours Table
         doc.setTextColor(100, 100, 100);
         doc.setFontSize(8);
         doc.setFont('helvetica', 'bold');
@@ -664,14 +1590,14 @@
         doc.line(margin, y, margin + contentW, y);
 
         y += 2;
-        const rowH = 11;
-        const rows = [
-          { label: 'Normale uren / Normal time', val: hourFields[0].value },
-          { label: 'Overwerk (ma-vr) / Overtime (Mon-Fri)', val: hourFields[1].value },
-          { label: 'Weekend (zaterdag) / Saturday', val: hourFields[2].value },
-          { label: 'Weekend (zondag) / Sunday', val: hourFields[3].value },
-          { label: 'Feestdagen / Public holiday', val: hourFields[4].value },
-          { label: 'Uren buitenland / Foreign country', val: hourFields[5].value },
+        var rowH = 11;
+        var rows = [
+          { label: 'Normale uren / Normal time', val: draft.hours.urenNormaal },
+          { label: 'Overwerk (ma-vr) / Overtime (Mon-Fri)', val: draft.hours.urenOverwerk },
+          { label: 'Weekend (zaterdag) / Saturday', val: draft.hours.urenZaterdag },
+          { label: 'Weekend (zondag) / Sunday', val: draft.hours.urenZondag },
+          { label: 'Feestdagen / Public holiday', val: draft.hours.urenFeestdag },
+          { label: 'Uren buitenland / Foreign country', val: draft.hours.urenBuitenland },
         ];
 
         rows.forEach(function(row, i) {
@@ -685,7 +1611,7 @@
           doc.setFont('helvetica', 'normal');
           doc.text(row.label, colLabel, y + 7.5);
 
-          var hours = parseFloat(row.val) || 0;
+          var hours = row.val || 0;
           doc.setFont('helvetica', 'bold');
           doc.text(hours.toFixed(1), colValue, y + 7.5, { align: 'right' });
 
@@ -695,18 +1621,15 @@
         // Total row
         doc.setFillColor(26, 26, 26);
         doc.roundedRect(margin, y, contentW, 13, 1, 1, 'F');
-
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.text('TOTAAL / TOTAL', colLabel, y + 9);
-
-        var total = parseFloat(totaalDisplay.textContent) || 0;
-        doc.text(total.toFixed(1), colValue, y + 9, { align: 'right' });
+        doc.text(draft.total.toFixed(1), colValue, y + 9, { align: 'right' });
 
         y += 22;
 
-        // --- Kilometers ---
+        // Kilometers
         doc.setTextColor(100, 100, 100);
         doc.setFontSize(8);
         doc.setFont('helvetica', 'bold');
@@ -719,17 +1642,93 @@
         y += 2;
         doc.setFillColor(249, 249, 249);
         doc.rect(margin, y, contentW, rowH, 'F');
-
         doc.setTextColor(50, 50, 50);
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
         doc.text('Totaal gereden / Total mileage driven', colLabel, y + 7.5);
-
-        var km = parseFloat(kmField.value) || 0;
         doc.setFont('helvetica', 'bold');
-        doc.text(km.toFixed(0) + ' km', colValue, y + 7.5, { align: 'right' });
+        doc.text((draft.kilometers || 0).toFixed(0) + ' km', colValue, y + 7.5, { align: 'right' });
 
-        // --- Footer ---
+        y += rowH + 2;
+        doc.setTextColor(150, 150, 150);
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'italic');
+        doc.text('Alleen voor interne administratie — wordt niet in rekening gebracht. / For internal records only — not charged to client.', margin + 5, y + 3);
+
+        y += 8;
+
+        // Notes
+        if (draft.opmerkingen) {
+          y += 4;
+          doc.setTextColor(100, 100, 100);
+          doc.setFontSize(8);
+          doc.setFont('helvetica', 'bold');
+          doc.text('OPMERKINGEN / NOTES', margin, y);
+
+          y += 3;
+          doc.setDrawColor(200, 200, 200);
+          doc.line(margin, y, margin + contentW, y);
+
+          y += 6;
+          doc.setTextColor(50, 50, 50);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'normal');
+          var noteLines = doc.splitTextToSize(draft.opmerkingen, contentW - 10);
+          doc.text(noteLines, colLabel, y);
+          y += noteLines.length * 4.5;
+        }
+
+        // ---- Signature Block ----
+        y += 8;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(margin, y, margin + contentW, y);
+
+        y += 6;
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text('GOEDKEURING OPDRACHTGEVER / CLIENT APPROVAL', margin, y);
+
+        y += 8;
+
+        // Approval box
+        doc.setFillColor(245, 250, 245);
+        doc.setDrawColor(27, 122, 61);
+        doc.roundedRect(margin, y, contentW, 50, 2, 2, 'FD');
+
+        var approvalX1 = margin + 6;
+
+        y += 8;
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Goedgekeurd door / Approved by:', approvalX1, y);
+        doc.setTextColor(26, 26, 26);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.text(draft.signedBy || '', approvalX1 + 52, y);
+
+        y += 6;
+        doc.setTextColor(100, 100, 100);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Datum / Date:', approvalX1, y);
+        doc.setTextColor(26, 26, 26);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        var signedDateStr = draft.signedAt ? formatDateTime(new Date(draft.signedAt)) : '';
+        doc.text(signedDateStr, approvalX1 + 52, y);
+
+        // Signature image
+        if (draft.signatureData) {
+          try {
+            var sigW = 55;
+            var sigH = 22;
+            doc.addImage(draft.signatureData, 'PNG', margin + contentW - sigW - 6, y - 8, sigW, sigH);
+          } catch (e) {}
+        }
+
+        // Footer
         var footerY = 280;
         doc.setDrawColor(200, 200, 200);
         doc.line(margin, footerY, margin + contentW, footerY);
@@ -739,44 +1738,44 @@
         doc.setFont('helvetica', 'normal');
         doc.text('Duiker Jachtmontage B.V.  |  Beukenstraat 18, 4388 PE Oost-Souburg  |  KvK: 98948806', pageW / 2, footerY + 5, { align: 'center' });
 
-        var now = new Date();
-        var genDate = formatDateDisplay(now) + ' ' + now.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+        var genDate = formatDateTime(new Date());
         doc.text('Gegenereerd op / Generated: ' + genDate, pageW / 2, footerY + 10, { align: 'center' });
 
-        // --- Save ---
-        const safeName = naam.value.trim().replace(/[^a-zA-Z0-9]/g, '_');
-        const safeProject = project.value.trim() ? '_' + project.value.trim().replace(/[^a-zA-Z0-9]/g, '_') : '';
-        const filename = 'Urenstaat_' + safeName + safeProject + '_Week' + weeknr.value + '_' + now.getFullYear() + '.pdf';
+        // Save
+        var safeName = draft.naam.replace(/[^a-zA-Z0-9]/g, '_');
+        var safeProject = draft.project ? '_' + draft.project.replace(/[^a-zA-Z0-9]/g, '_') : '';
+        var filename = 'Urenstaat_' + safeName + safeProject + '_Week' + draft.weeknr + '_SIGNED.pdf';
 
-        // iOS Safari workaround
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
-          const blob = doc.output('blob');
-          const url = URL.createObjectURL(blob);
+          var blob = doc.output('blob');
+          var url = URL.createObjectURL(blob);
           window.open(url, '_blank');
         } else {
           doc.save(filename);
         }
       }
 
-      generateBtn.addEventListener('click', generatePDF);
-
-      // --- Reset ---
+      // ============================
+      //  Reset Form
+      // ============================
       resetBtn.addEventListener('click', function() {
         if (confirm('Formulier wissen? / Clear form?')) {
-          hourFields.forEach(f => f.value = '');
+          hourFields.forEach(function(f) { f.value = ''; });
           kmField.value = '';
+          opmerkingen.value = '';
           updateTotal();
           clearErrors();
-          // Keep name and week
         }
       });
 
-      // --- PWA Install Prompt ---
-      let deferredPrompt = null;
-      const installBanner = document.getElementById('installBanner');
-      const installBtn = document.getElementById('installBtn');
-      const dismissInstall = document.getElementById('dismissInstall');
+      // ============================
+      //  PWA Install Prompt
+      // ============================
+      var deferredPrompt = null;
+      var installBanner = document.getElementById('installBanner');
+      var installBtn = document.getElementById('installBtn');
+      var dismissInstall = document.getElementById('dismissInstall');
 
       window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
@@ -798,8 +1797,10 @@
         installBanner.classList.remove('visible');
       });
 
-      // --- Offline indicator ---
-      const offlineBanner = document.getElementById('offlineBanner');
+      // ============================
+      //  Offline indicator
+      // ============================
+      var offlineBanner = document.getElementById('offlineBanner');
 
       function updateOnlineStatus() {
         if (!navigator.onLine) {
@@ -812,6 +1813,11 @@
       window.addEventListener('online', updateOnlineStatus);
       window.addEventListener('offline', updateOnlineStatus);
       updateOnlineStatus();
+
+      // ============================
+      //  Init
+      // ============================
+      updateDraftCount();
 
     })();
   </script>
