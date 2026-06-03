@@ -1745,11 +1745,13 @@
         var safeProject = draft.project ? '_' + draft.project.replace(/[^a-zA-Z0-9]/g, '_') : '';
         var filename = 'Urenstaat_' + safeName + safeProject + '_Week' + draft.weeknr + '_SIGNED.pdf';
 
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        if (isIOS) {
-          var blob = doc.output('blob');
-          var url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
+        var blob = doc.output('blob');
+        var file = new File([blob], filename, { type: 'application/pdf' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: filename }).catch(function() {
+            doc.save(filename);
+          });
         } else {
           doc.save(filename);
         }
